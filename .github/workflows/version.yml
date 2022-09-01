@@ -26,4 +26,8 @@ jobs:
       # Runs a single command using the runners shell
       - name: Get version out of commit
         continue-on-error: true
-        run: git log -1 --pretty=format:"%s" | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\).*$/\1/'
+        run: |
+          EXTRACTED_VERSION=$(git log -1 --pretty=format:"%s" | sed 's/^.*[^0-9]\([0-9]*\.[0-9]*\.[0-9]*\).*$/\1/')
+          git tag $EXTRACTED_VERSION
+          git push --tags
+
